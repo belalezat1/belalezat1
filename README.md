@@ -20,7 +20,7 @@
     * Treasurer at United Mission Relief (UMR)
 * **Past Experience:**
     * IT Service Specialist at Best Bet Computer
-    * Property Manager at Rock Properties
+    * Administrative Project Manager at Rock Properties
 
 ## Tech Stack & Tools
 
