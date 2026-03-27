@@ -74,8 +74,8 @@ Dialog behavior and preview updates verified
 ## Let's Connect!
 
 <div align="center">
-  <a href="mailto:[belalezat05@gmail.com]" target="_blank">
-    <img src="https://img.shields.io/badge/Email-belalezat05@gmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  <a href="mailto:[belal.ezat@protonmail.com]" target="_blank">
+    <img src="https://img.shields.io/badge/Email-belal.ezat@protonmail.com-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
   <a href="https://www.linkedin.com/in/belal-ezat">
     <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
