@@ -10,7 +10,7 @@
 * **Role:** Computer Science Student at New Jersey Institute of Technology (NJIT)
 * **Location:** New York Metropolitan Area
 * **Passions:** Software Development, Machine Learning, Computer Networking, Systems Engineering, Web Development
-* **Current Focus:** Developing Navly (a mobile parking intelligence app) and expanding my enterprise-grade homelab.
+* **Current Focus:** Developing Atlas (Travel mobile app with React Native) and looking for 2027 internships.
 * **Currently Learning:** Advanced C++, Machine Learning Pipelines, Cybersecurity, DevOps, Computer Systems
 
 **Experience & Leadership**
