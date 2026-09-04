@@ -15,7 +15,7 @@ Computer science student at NJIT with a software engineering and systems backgro
 
 ---
 
-## Wxperience
+## Experience
 
 - **Systems Engineer** @ Thorlabs
 - **IT Service Specialist** @ Best Bet Computer
