@@ -5,21 +5,23 @@
 
 # Belal Ezat
 
-Computer science student at NJIT with a systems engineering and security background.
+Computer science student at NJIT with a software engineering and systems background.
 
-**now** · CS @ NJIT '27 · Senior Hacker @ NICC · Treasurer @ United Mission Relief · building **Atlas**, a map-based group travel logbook (React Native)
-**learning** · Advanced C++ · ML pipelines · Cybersecurity · DevOps
-**next** · applying broadly for **summer '27 SWE internships** → [belal.ezat@protonmail.com](mailto:belal.ezat@protonmail.com)
+**Now** · CS @ NJIT '27 · Senior Hacker @ NICC · Treasurer @ United Mission Relief · building **Atlas**, a map-based group travel logbook (React Native)
+
+**Learning** · Advanced C++ · ML pipelines · DevOps
+
+**Next** · applying broadly for **summer '27 SWE internships and new grad** → [belal.ezat@protonmail.com](mailto:belal.ezat@protonmail.com)
 
 ---
 
-## experience
+## Wxperience
 
 - **Systems Engineer** @ Thorlabs
 - **IT Service Specialist** @ Best Bet Computer
 - **Administrative Project Manager** @ Rock Properties
 
-## projects
+## Projects
 
 | | |
 |---|---|
@@ -30,7 +32,7 @@ Computer science student at NJIT with a systems engineering and security backgro
 | **[ProfPickr](https://github.com/asatovbobir/ProfPickr)** & **[ClinicSense](https://github.com/MahinAshraful/RUHealthHackathon_Back)** | Hackathon builds: a professor recommendation platform and an AI-driven healthcare intake platform |
 | **[Notepad++ export feature](https://github.com/belalezat1/notepad-plus-plus)** | Open-source contribution adding CSV, JSON, and plain-text export for Find & Replace results, with a live preview and overwrite protection |
 
-## tech stack
+## Tech Stack
 
 **Languages**
 
@@ -96,7 +98,7 @@ Computer science student at NJIT with a systems engineering and security backgro
 </tr>
 </table>
 
-## find me
+## Contact
 
 [email](mailto:belal.ezat@protonmail.com) · [linkedin](https://www.linkedin.com/in/belal-ezat) · [devpost](https://devpost.com/bte5) · [site](https://belalezat.me)
 
