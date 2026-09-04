@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/banner.svg" alt="Belal Ezat — cs @ njit · snowboarding, hiking, kayaking" width="100%">
+  <img src="banner.svg" alt="Belal Ezat — cs @ njit · snowboarding, hiking, kayaking" width="100%">
 </div>
 <br>
 
