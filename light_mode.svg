@@ -433,26 +433,26 @@ text, tspan {white-space: pre;}
 <clipPath id="barClip"><rect x="15" y="462" width="260" height="9" rx="4.5"/></clipPath>
 <rect x="15" y="462" width="260" height="9" rx="4.5" fill="#eaeef2"/>
 <g clip-path="url(#barClip)">
-<rect x="15.00" y="462" width="97.57" height="9" fill="#DA5B0B"/>
-<rect x="112.57" y="462" width="37.53" height="9" fill="#b07219"/>
-<rect x="150.10" y="462" width="37.00" height="9" fill="#3572A5"/>
-<rect x="187.11" y="462" width="23.79" height="9" fill="#e34c26"/>
-<rect x="210.90" y="462" width="23.51" height="9" fill="#f1e05a"/>
-<rect x="234.41" y="462" width="40.59" height="9" fill="#8b949e"/>
+<rect x="15.00" y="462" width="233.46" height="9" fill="#f1e05a"/>
+<rect x="248.46" y="462" width="11.35" height="9" fill="#3178c6"/>
+<rect x="259.81" y="462" width="5.53" height="9" fill="#DA5B0B"/>
+<rect x="265.34" y="462" width="3.04" height="9" fill="#3572A5"/>
+<rect x="268.38" y="462" width="2.13" height="9" fill="#b07219"/>
+<rect x="270.50" y="462" width="4.50" height="9" fill="#8b949e"/>
 </g>
 <g font-size="10.5px" fill="#24292f">
-<circle cx="19" cy="488" r="4" fill="#DA5B0B"/>
-<text x="29" y="492">Jupyter Notebook <tspan class="cc">37.5%</tspan></text>
-<circle cx="154" cy="488" r="4" fill="#b07219"/>
-<text x="164" y="492">Java <tspan class="cc">14.4%</tspan></text>
-<circle cx="19" cy="508" r="4" fill="#3572A5"/>
-<text x="29" y="512">Python <tspan class="cc">14.2%</tspan></text>
-<circle cx="154" cy="508" r="4" fill="#e34c26"/>
-<text x="164" y="512">HTML <tspan class="cc">9.2%</tspan></text>
-<circle cx="19" cy="528" r="4" fill="#f1e05a"/>
-<text x="29" y="532">JavaScript <tspan class="cc">9.0%</tspan></text>
+<circle cx="19" cy="488" r="4" fill="#f1e05a"/>
+<text x="29" y="492">JavaScript <tspan class="cc">89.8%</tspan></text>
+<circle cx="154" cy="488" r="4" fill="#3178c6"/>
+<text x="164" y="492">TypeScript <tspan class="cc">4.4%</tspan></text>
+<circle cx="19" cy="508" r="4" fill="#DA5B0B"/>
+<text x="29" y="512">Jupyter Notebook <tspan class="cc">2.1%</tspan></text>
+<circle cx="154" cy="508" r="4" fill="#3572A5"/>
+<text x="164" y="512">Python <tspan class="cc">1.2%</tspan></text>
+<circle cx="19" cy="528" r="4" fill="#b07219"/>
+<text x="29" y="532">Java <tspan class="cc">0.8%</tspan></text>
 <circle cx="154" cy="528" r="4" fill="#8b949e"/>
-<text x="164" y="532">Other <tspan class="cc">15.6%</tspan></text>
+<text x="164" y="532">Other <tspan class="cc">1.7%</tspan></text>
 </g>
 <text x="318" y="30" fill="#24292f">
 <tspan x="318" y="30">belal@njit</tspan> ────────────────────────────────────────────────────
@@ -470,7 +470,7 @@ text, tspan {white-space: pre;}
 <tspan x="318" y="324" class="cc">. </tspan><tspan class="key">Devpost</tspan>:<tspan class="cc"> ................................... </tspan><tspan class="value">devpost.com/bte5</tspan>
 <tspan x="318" y="366">─ GitHub Stats</tspan> ────────────────────────────────────────────────
 <tspan x="318" y="387" class="cc">. </tspan><tspan class="key">Repos</tspan>:<tspan class="cc" id="repo_data_dots"> .... </tspan><tspan class="value" id="repo_data">16</tspan> | <tspan class="key">PRs Merged</tspan>:<tspan class="cc" id="pr_data_dots"> .............................. </tspan><tspan class="value" id="pr_data">0</tspan>
-<tspan x="318" y="408" class="cc">. </tspan><tspan class="key">Contributions (1y)</tspan>:<tspan class="cc" id="contribution_data_dots"> .... </tspan><tspan class="value" id="contribution_data">0</tspan> | <tspan class="key">Followers</tspan>:<tspan class="cc" id="follower_data_dots"> ................... </tspan><tspan class="value" id="follower_data">6</tspan>
-<tspan x="318" y="429" class="cc">. </tspan><tspan class="key">Lines of Code</tspan>:<tspan class="cc" id="loc_data_dots"> ................................. </tspan><tspan class="value" id="loc_data">0</tspan> (<tspan class="addColor" id="loc_add">0</tspan><tspan class="addColor">++</tspan>, <tspan class="delColor" id="loc_del">0</tspan><tspan class="delColor">--</tspan>)
+<tspan x="318" y="408" class="cc">. </tspan><tspan class="key">Contributions (1y)</tspan>:<tspan class="cc" id="contribution_data_dots"> .... </tspan><tspan class="value" id="contribution_data">79</tspan> | <tspan class="key">Followers</tspan>:<tspan class="cc" id="follower_data_dots"> .................. </tspan><tspan class="value" id="follower_data">6</tspan>
+<tspan x="318" y="429" class="cc">. </tspan><tspan class="key">Lines of Code</tspan>:<tspan class="cc" id="loc_data_dots"> .................... </tspan><tspan class="value" id="loc_data">6,973</tspan> (<tspan class="addColor" id="loc_add">11,009</tspan><tspan class="addColor">++</tspan>, <tspan class="delColor" id="loc_del">4,036</tspan><tspan class="delColor">--</tspan>)
 </text>
 </svg>

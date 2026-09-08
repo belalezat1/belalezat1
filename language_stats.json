@@ -1,44 +1,44 @@
 {
   "languages": [
     {
+      "bytes": 14948561,
+      "name": "JavaScript"
+    },
+    {
+      "bytes": 727035,
+      "name": "TypeScript"
+    },
+    {
       "bytes": 353863,
       "name": "Jupyter Notebook"
+    },
+    {
+      "bytes": 194486,
+      "name": "Python"
     },
     {
       "bytes": 136110,
       "name": "Java"
     },
     {
-      "bytes": 134203,
-      "name": "Python"
-    },
-    {
-      "bytes": 86292,
+      "bytes": 90467,
       "name": "HTML"
     },
     {
-      "bytes": 85251,
-      "name": "JavaScript"
+      "bytes": 87744,
+      "name": "PLpgSQL"
     },
     {
-      "bytes": 76762,
-      "name": "TypeScript"
-    },
-    {
-      "bytes": 47343,
+      "bytes": 83373,
       "name": "PHP"
     },
     {
-      "bytes": 14732,
+      "bytes": 17912,
       "name": "CSS"
     },
     {
-      "bytes": 4935,
+      "bytes": 7685,
       "name": "Hack"
-    },
-    {
-      "bytes": 2627,
-      "name": "PLpgSQL"
     },
     {
       "bytes": 637,
@@ -47,6 +47,14 @@
     {
       "bytes": 150,
       "name": "Rust"
+    },
+    {
+      "bytes": 59,
+      "name": "Shell"
+    },
+    {
+      "bytes": 41,
+      "name": "Batchfile"
     },
     {
       "bytes": 25,

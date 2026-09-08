@@ -1,0 +1,70 @@
+{
+  "repositories": {
+    "belalezat1/Atlas": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "01a1e919f69182e43ef994c8bc279932d8fc4bd6"
+    },
+    "belalezat1/CS301-MachineLearningProject": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "a10213184d9724b2496ed83419e001079d66202b"
+    },
+    "belalezat1/Ratio": {
+      "additions": 2,
+      "deletions": 0,
+      "headOid": "631e5b0d2218144317db76b9d4007c3bfdad11fa"
+    },
+    "belalezat1/Relay": {
+      "additions": 4072,
+      "deletions": 1690,
+      "headOid": "69735580edd10934e0138848d0614f973ff38ea2"
+    },
+    "belalezat1/Transparency-Lens": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "9f2d74e4d8c0fbabe258860f3a10e6f5e8702a71"
+    },
+    "belalezat1/battlesnake2026": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "5b68e0a11b2ad81e348c1e863eca6e0783ae4b11"
+    },
+    "belalezat1/belalezat1": {
+      "additions": 428,
+      "deletions": 120,
+      "headOid": "ca20973a2699bb071a1487163477878af13100ad"
+    },
+    "belalezat1/belalezat1.github.io": {
+      "additions": 2822,
+      "deletions": 1880,
+      "headOid": "30b1693153ece8ed94d581b034acfba3e11f1e21"
+    },
+    "belalezat1/bte5-IT202-Lecture": {
+      "additions": 1938,
+      "deletions": 164,
+      "headOid": "8d141fc6475cb98ac22ff200cb4ff67061c8c920"
+    },
+    "belalezat1/bte5-IT202-Website": {
+      "additions": 1747,
+      "deletions": 182,
+      "headOid": "746d74cd06518dbecf09324e92f4f8244aaf43c4"
+    },
+    "belalezat1/finance-nagger": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "7808a006f5fceb2ed109ca3097132185f3a28afc"
+    },
+    "belalezat1/hello-world": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "efa5a588a6136137318981668d55d0f5ef74f563"
+    },
+    "belalezat1/navly": {
+      "additions": 0,
+      "deletions": 0,
+      "headOid": "3f555913c50aac1b28f519cc829d38619303fff3"
+    }
+  },
+  "version": 1
+}
