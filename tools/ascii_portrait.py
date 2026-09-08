@@ -63,23 +63,23 @@ class CropPreset:
     light: ToneCurve
 
 
-# Source is 460×460; framing is measured on the head, not the full body box.
+# Source is 1024×1024 studio headshot; framing measured on the head.
 # Dark panel: keep midtones lifted so hair/suit don't vanish into a silhouette.
 DARK_TONE = ToneCurve(2.0, 98.0, 0.78, 1.00)
 LIGHT_TONE = ToneCurve(1.0, 99.0, 1.45, 0.70)
 
 PRESETS = {
-    # 460×460 avatar: keep the hairline near the top of the glyph grid.
+    # Head top ~y=90–120 and chin ~y=900 in the 1024px source.
     "open": CropPreset(
-        "headshot.png", 230, 32, 420,
+        "headshot.png", 512, 60, 960,
         0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
     ),
     "balanced": CropPreset(
-        "headshot.png", 230, 50, 395,
+        "headshot.png", 512, 100, 880,
         0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
     ),
     "tight": CropPreset(
-        "headshot.png", 230, 70, 360,
+        "headshot.png", 512, 160, 780,
         0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
     ),
 }

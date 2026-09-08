@@ -13,11 +13,9 @@ python3 -m venv .venv
 
 ## Portrait
 
-Committed source: `tools/headshot.png` (GitHub avatar for `belalezat1`, 460×460).
-A higher-resolution studio crop will improve facial detail; replace the file and
-re-run the generator. Presets `open`, `balanced`, and `tight` only change how
-much shoulder is kept. Optional overrides: `--center-x`, `--top`, `--height`,
-`--source`.
+Committed source: `tools/headshot.png` (1024×1024 studio headshot).
+Presets `open`, `balanced`, and `tight` only change how much shoulder is kept.
+Optional overrides: `--center-x`, `--top`, `--height`, `--source`.
 
 Dark and light polarities are generated separately — do not reuse one art file
 for both panels.
