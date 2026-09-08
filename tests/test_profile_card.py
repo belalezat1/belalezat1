@@ -56,12 +56,10 @@ class ProfileCardTests(unittest.TestCase):
             self.assertIn("software engineering, cloud, AI/ML", svg)
             self.assertIn("belal.ezat@protonmail.com", svg)
             self.assertIn("belalezat.me", svg)
-            self.assertIn("Atlas", svg)
-            self.assertIn("Relay", svg)
-            self.assertIn("Recova", svg)
             self.assertIn("React Native", svg)
             self.assertIn("GitHub Stats", svg)
             self.assertIn("Lines of Code", svg)
+            self.assertNotIn("Projects", svg)
             self.assertNotIn("Navly", svg)
             self.assertNotIn("Learning", svg)
             self.assertNotIn("kayahickin", svg)
@@ -78,10 +76,23 @@ class ProfileCardTests(unittest.TestCase):
             lines = (ROOT / "tools" / f"ascii_art_{polarity}.txt").read_text(
                 encoding="utf-8"
             ).splitlines()
-            self.assertLessEqual(len(lines), 412, polarity)
-            self.assertLessEqual(max(map(len, lines)), 430, polarity)
+            self.assertLessEqual(len(lines), 128, polarity)
+            self.assertLessEqual(max(map(len, lines)), 92, polarity)
             head = max(1, round(len(lines) * 0.08))
             self.assertTrue(any(lines[:head]), polarity)
+
+    def test_portrait_has_visible_feature_contrast(self):
+        """Coarse grid should keep more than a flat silhouette of one glyph."""
+        for polarity in ("dark", "light"):
+            text = (ROOT / "tools" / f"ascii_art_{polarity}.txt").read_text(
+                encoding="utf-8"
+            )
+            glyphs = {c for c in text if c not in " \n"}
+            self.assertGreaterEqual(len(glyphs), 4, polarity)
+            # Eye/glasses band sits in the upper-middle of the face crop.
+            lines = text.splitlines()
+            band = "\n".join(lines[35:70])
+            self.assertTrue(any(c in band for c in "#@*+="), polarity)
 
     def test_each_panel_has_distinct_portrait_polarity(self):
         dark_art = (ROOT / "tools" / "ascii_art_dark.txt").read_text(encoding="utf-8")
@@ -105,7 +116,7 @@ class ProfileCardTests(unittest.TestCase):
             self.assertIn('clip-path="url(#barClip)"', svg)
             group = svg.split('<g clip-path="url(#barClip)">')[1].split("</g>")[0]
             segments = re.findall(
-                r'<rect x="([\d.]+)" y="462" width="([\d.]+)"', group
+                r'<rect x="([\d.]+)" y="430" width="([\d.]+)"', group
             )
             self.assertGreaterEqual(len(segments), 2, name)
             covered = sum(float(width) for _, width in segments)
@@ -204,9 +215,12 @@ class ProfileCardTests(unittest.TestCase):
         self.assertIn("https://belalezat.me", readme)
         self.assertIn("https://github.com/belalezat1/Recova", readme)
         self.assertIn("### Skills", readme)
+        self.assertIn("### Projects", readme)
         self.assertIn("New York City Metropolitan Area", readme)
         self.assertNotIn("navly", readme.lower())
-        self.assertIn("software engineering, cloud, AI/ML", readme)
+        self.assertNotIn("**Focus**", readme)
+        self.assertNotIn("**Experience**", readme)
+        self.assertIn("software engineering, cloud, AI/ML", (ROOT / "dark_mode.svg").read_text(encoding="utf-8"))
 
     def test_github_server_error_is_returned_for_retry(self):
         error = urllib.error.HTTPError(

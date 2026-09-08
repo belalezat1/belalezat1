@@ -1,14 +1,11 @@
 """Generate theme-aware ASCII portraits from the committed headshot.
 
-Ink is treated as halftone density. On the dark card, bright glyphs mark ink,
-so dark clothing falls away and the lit face carries detail. On the light card
-the polarity flips. Tone is error-diffused across a short glyph ramp so the
-portrait reads as a stipple instead of a solid slab of characters.
+Uses a coarse glyph grid so eyes/glasses survive GitHub README scaling.
+Dark-card glyphs ink *dark* image regions (glasses, eyes, hair). Light-card
+glyphs ink the opposite end of the tone range. Tone is error-diffused across
+a short density ramp.
 
-Crop presets only change how much shoulder is kept. Regenerate from the repo
-root after installing tools/requirements.txt:
-
-    python3 tools/ascii_portrait.py --preset balanced
+    python3 tools/ascii_portrait.py --preset face
 """
 
 from __future__ import annotations
@@ -22,19 +19,25 @@ from PIL import Image, ImageFilter, ImageOps
 
 
 HERE = Path(__file__).resolve().parent
-COLS, ROWS = 430, 412
-CHAR_WIDTH, LINE_HEIGHT = 0.6, 1.0
-SUPERSAMPLE = 5
 
-# Short density ramp: Floyd–Steinberg fills the gaps as stipple texture.
+# Coarse grid: each cell is large enough to survive README downscaling.
+COLS, ROWS = 92, 128
+CHAR_WIDTH, LINE_HEIGHT = 0.6, 1.0
+SUPERSAMPLE = 8
+
+# Density ramp — enough steps for face tones without becoming a solid slab.
 RAMP: tuple[tuple[str, float], ...] = (
     (" ", 0.00),
-    (".", 0.25),
-    (":", 0.50),
-    ("*", 0.75),
-    ("o", 1.00),
+    (".", 0.14),
+    (":", 0.28),
+    ("-", 0.42),
+    ("=", 0.56),
+    ("+", 0.70),
+    ("*", 0.82),
+    ("#", 0.92),
+    ("@", 1.00),
 )
-EDGE_FLOOR = 0.16
+EDGE_FLOOR = 0.08
 
 RAMP_CHARS = np.array([glyph for glyph, _ in RAMP])
 RAMP_INK = np.array([ink for _, ink in RAMP], dtype=np.float64)
@@ -63,24 +66,29 @@ class CropPreset:
     light: ToneCurve
 
 
-# Source is 1024×1024 studio headshot; framing measured on the head.
-# Dark panel: keep midtones lifted so hair/suit don't vanish into a silhouette.
-DARK_TONE = ToneCurve(2.0, 98.0, 0.78, 1.00)
-LIGHT_TONE = ToneCurve(1.0, 99.0, 1.45, 0.70)
+# Panel polarity = which end of the tone range becomes glyph ink.
+# Dark card: ink *dark* image regions (eyes, glasses, hair) with bright glyphs.
+# Light card: ink *bright* regions inverted — same as dark features on white.
+DARK_TONE = ToneCurve(1.0, 99.0, 1.25, 0.78)
+LIGHT_TONE = ToneCurve(3.0, 99.0, 1.15, 0.90)
 
 PRESETS = {
-    # Head top ~y=90–120 and chin ~y=900 in the 1024px source.
+    # 1024×1024 studio headshot. `face` is the committed card crop.
     "open": CropPreset(
-        "headshot.png", 512, 60, 960,
-        0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
+        "headshot.png", 512, 80, 900,
+        0.70, 3.40, 0.55, 0.45, 0.04, DARK_TONE, LIGHT_TONE,
     ),
     "balanced": CropPreset(
-        "headshot.png", 512, 100, 880,
-        0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
+        "headshot.png", 512, 110, 820,
+        0.70, 3.40, 0.55, 0.45, 0.04, DARK_TONE, LIGHT_TONE,
+    ),
+    "face": CropPreset(
+        "headshot.png", 512, 150, 720,
+        0.65, 3.80, 0.70, 0.55, 0.03, DARK_TONE, LIGHT_TONE,
     ),
     "tight": CropPreset(
-        "headshot.png", 512, 160, 780,
-        0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
+        "headshot.png", 512, 190, 640,
+        0.65, 3.80, 0.70, 0.55, 0.03, DARK_TONE, LIGHT_TONE,
     ),
 }
 
@@ -89,7 +97,7 @@ POLARITIES = ("dark", "light")
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--preset", choices=PRESETS, default="balanced")
+    parser.add_argument("--preset", choices=PRESETS, default="face")
     parser.add_argument(
         "--polarity",
         choices=POLARITIES,
@@ -97,12 +105,7 @@ def parse_args() -> argparse.Namespace:
         help="build one panel; omit to write both polarities",
     )
     parser.add_argument("--source", type=Path, default=None)
-    parser.add_argument(
-        "--center-x",
-        type=int,
-        default=None,
-        help="optional crop center override (pixels in source image)",
-    )
+    parser.add_argument("--center-x", type=int, default=None)
     parser.add_argument("--top", type=int, default=None)
     parser.add_argument("--height", type=int, default=None)
     parser.add_argument("--output", type=Path, default=None)
@@ -120,7 +123,6 @@ def crop_box(preset: CropPreset) -> tuple[int, int, int, int]:
 
 
 def flood_from_border(candidate: np.ndarray) -> np.ndarray:
-    """Keep only the border-connected component of a boolean mask."""
     reached = np.zeros_like(candidate)
     reached[0] |= candidate[0]
     reached[-1] |= candidate[-1]
@@ -139,16 +141,16 @@ def flood_from_border(candidate: np.ndarray) -> np.ndarray:
 
 
 def subject_mask(hsv: np.ndarray) -> np.ndarray:
-    """True on the subject; false on the near-white studio backdrop."""
     saturation, value = hsv[..., 1], hsv[..., 2]
     backdrop = (saturation <= 35) & (value >= 220)
     return ~flood_from_border(backdrop)
 
 
 def local_contrast(gray: np.ndarray, preset: CropPreset) -> np.ndarray:
+    # Smaller blur radius in *cells* so eyes/glasses survive as local detail.
     blurred = np.asarray(
         Image.fromarray(gray.astype(np.uint8)).filter(
-            ImageFilter.GaussianBlur(radius=SUPERSAMPLE * 2.5)
+            ImageFilter.GaussianBlur(radius=SUPERSAMPLE * 1.6)
         ),
         dtype=np.float64,
     )
@@ -158,12 +160,11 @@ def local_contrast(gray: np.ndarray, preset: CropPreset) -> np.ndarray:
 
 
 def largest_mass(drawn: np.ndarray) -> np.ndarray:
-    """Drop stray background islands by growing from the centre column."""
     rows, cols = drawn.shape
     seed = np.zeros_like(drawn)
-    band = slice(int(cols * 0.35), int(cols * 0.65))
-    seed[int(rows * 0.20) : int(rows * 0.95), band] = drawn[
-        int(rows * 0.20) : int(rows * 0.95), band
+    band = slice(int(cols * 0.30), int(cols * 0.70))
+    seed[int(rows * 0.10) : int(rows * 0.95), band] = drawn[
+        int(rows * 0.10) : int(rows * 0.95), band
     ]
     if not seed.any():
         return drawn
@@ -193,7 +194,7 @@ def edge_energy(gray: np.ndarray) -> np.ndarray:
         - gray[:-2, :-2] - 2 * gray[:-2, 1:-1] - gray[:-2, 2:]
     )
     magnitude = np.hypot(gx, gy)
-    ceiling = float(np.percentile(magnitude, 99.0) or 1.0)
+    ceiling = float(np.percentile(magnitude, 98.0) or 1.0)
     return np.clip(magnitude / ceiling, 0.0, 1.0)
 
 
@@ -229,7 +230,7 @@ def ink_field(
     polarity: str,
 ) -> np.ndarray:
     tone = preset.light if polarity == "light" else preset.dark
-    drawn = largest_mass(coverage > 0.40)
+    drawn = largest_mass(coverage > 0.35)
     if not drawn.any():
         return np.zeros_like(luminance)
 
@@ -238,7 +239,9 @@ def ink_field(
     white = np.percentile(values, tone.white_point)
     span = max(1.0, float(white - black))
     normalized = np.clip((luminance - black) / span, 0.0, 1.0)
-    if polarity == "light":
+    # Dark panel: ink dark image features (glasses, eyes, hair, suit).
+    # Light panel: ink bright image features (lit face/shirt as dark glyphs).
+    if polarity == "dark":
         normalized = 1.0 - normalized
 
     ink = (normalized**tone.gamma) * tone.ceiling
@@ -255,18 +258,13 @@ def ink_field(
     interior[:, 1:] &= drawn[:, :-1]
     interior[:, :-1] &= drawn[:, 1:]
     ink = np.where(drawn & ~interior, np.maximum(ink, preset.rim_gain), ink)
-    ink *= np.clip((coverage - 0.15) / 0.55, 0.0, 1.0)
-    # Re-assert silhouette mass after the coverage fade; without this the dark
-    # card collapses dark hair/suit into an empty shadow outline.
-    floor = preset.interior_floor * (0.85 if polarity == "dark" else 0.55)
-    ink = np.where(drawn & (coverage > 0.25), np.maximum(ink, floor), ink)
-    ink = np.where(drawn & ~interior, np.maximum(ink, preset.rim_gain * 0.85), ink)
+    ink *= np.clip((coverage - 0.12) / 0.50, 0.0, 1.0)
 
     fringe = np.zeros_like(drawn)
     for dy in (-1, 0, 1):
         for dx in (-1, 0, 1):
             fringe |= np.roll(np.roll(drawn, dy, axis=0), dx, axis=1)
-    return np.where(fringe & (coverage > 0.15), ink, 0.0)
+    return np.where(fringe & (coverage > 0.12), ink, 0.0)
 
 
 def floyd_steinberg(ink: np.ndarray) -> list[str]:

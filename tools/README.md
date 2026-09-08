@@ -14,8 +14,12 @@ python3 -m venv .venv
 ## Portrait
 
 Committed source: `tools/headshot.png` (1024×1024 studio headshot).
-Presets `open`, `balanced`, and `tight` only change how much shoulder is kept.
-Optional overrides: `--center-x`, `--top`, `--height`, `--source`.
+Default preset is `face` (tight on the head so eyes/glasses survive README
+scaling). `open` / `balanced` / `tight` change shoulder crop. Optional
+overrides: `--center-x`, `--top`, `--height`, `--source`.
+
+The portrait uses a coarse 92×128 glyph grid at 3px — sub-pixel 430-col
+stipple looked like a shadow on GitHub.
 
 Dark and light polarities are generated separately — do not reuse one art file
 for both panels.

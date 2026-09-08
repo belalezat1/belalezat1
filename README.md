@@ -11,11 +11,7 @@
 </picture>
 
 **Belal Ezat** · CS @ NJIT '27 · New York City Metropolitan Area  
-Senior Hacker @ NICC · Treasurer @ United Mission Relief
-
-**Now** · building [Atlas](https://atlasapp.pages.dev) (React Native travel logbook) · seeking **summer '27 SWE internships**  
-**Focus** · software engineering, cloud, AI/ML  
-**Experience** · Systems Engineer @ Thorlabs · IT Service Specialist @ Best Bet Computer · Administrative Project Manager @ Rock Properties
+Senior Hacker @ NICC · Treasurer @ United Mission Relief · seeking **summer '27 SWE internships**
 
 ### Projects
 - **[Atlas](https://atlasapp.pages.dev)** — cross-platform travel logbook with multi-tenant Postgres RLS (40+ migrations), Deno Edge Functions, and Cloudflare; traced a 668MB/day egress leak to near-zero repeat-view cost

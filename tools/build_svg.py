@@ -18,16 +18,17 @@ ROOT = HERE.parent
 
 CARD_W, CARD_H = 985, 545
 
-# Left column: ASCII portrait + language bar + legend
-COLS, ROWS = 430, 412
-ART_X, ART_Y0 = 15, 24
-ART_FS, ART_ADVANCE, ART_LINE_H = 1, 0.6, 1.0
+# Left column: coarse ASCII portrait + language bar + legend
+# Grid must match tools/ascii_portrait.py (COLS/ROWS) and stay left of X_RIGHT.
+COLS, ROWS = 92, 128
+ART_X, ART_Y0 = 18, 30
+ART_FS, ART_ADVANCE, ART_LINE_H = 3.0, 1.8, 3.0
 ART_W = COLS * ART_ADVANCE
 
-BAR_X, BAR_Y, BAR_W, BAR_H = ART_X, 462, 260, 9
+BAR_X, BAR_Y, BAR_W, BAR_H = ART_X, 430, 260, 9
 LEGEND_FS = 10.5
 LEGEND_COLS = (ART_X, ART_X + 135)
-LEGEND_ROWS = (492, 512, 532)
+LEGEND_ROWS = (458, 478, 498)
 LEGEND_SLOTS = len(LEGEND_COLS) * len(LEGEND_ROWS)
 
 # Right column: neofetch-style readout
@@ -95,7 +96,6 @@ PROFILE = {
     "focus": "software engineering, cloud, AI/ML",
     "languages": "Python, Java, C++, TypeScript",
     "frameworks": "React Native, Spring Boot, Node",
-    "projects": "Atlas · Relay · Recova · Homelab",
     "email": "belal.ezat@protonmail.com",
     "website": "belalezat.me",
     "linkedin": "linkedin.com/in/belal-ezat",
@@ -287,7 +287,6 @@ def build_rows(stats: dict[str, str]) -> list[str | None]:
         None,
         line_kv("Stack.Languages", p["languages"]),
         line_kv("Stack.Frameworks", p["frameworks"]),
-        line_kv("Projects", p["projects"]),
         None,
         header("─ Contact"),
         line_kv("Email", p["email"]),
