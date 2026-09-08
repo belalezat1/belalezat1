@@ -64,22 +64,23 @@ class CropPreset:
 
 
 # Source is 460×460; framing is measured on the head, not the full body box.
-DARK_TONE = ToneCurve(8.0, 99.0, 1.30, 1.00)
-LIGHT_TONE = ToneCurve(1.0, 99.0, 1.50, 0.68)
+# Dark panel: keep midtones lifted so hair/suit don't vanish into a silhouette.
+DARK_TONE = ToneCurve(2.0, 98.0, 0.78, 1.00)
+LIGHT_TONE = ToneCurve(1.0, 99.0, 1.45, 0.70)
 
 PRESETS = {
     # 460×460 avatar: keep the hairline near the top of the glyph grid.
     "open": CropPreset(
         "headshot.png", 230, 32, 420,
-        0.82, 2.55, 0.32, 0.62, 0.11, DARK_TONE, LIGHT_TONE,
+        0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
     ),
     "balanced": CropPreset(
         "headshot.png", 230, 50, 395,
-        0.82, 2.55, 0.32, 0.62, 0.11, DARK_TONE, LIGHT_TONE,
+        0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
     ),
     "tight": CropPreset(
         "headshot.png", 230, 70, 360,
-        0.82, 2.55, 0.32, 0.62, 0.11, DARK_TONE, LIGHT_TONE,
+        0.88, 2.70, 0.40, 0.78, 0.24, DARK_TONE, LIGHT_TONE,
     ),
 }
 
@@ -255,6 +256,11 @@ def ink_field(
     interior[:, :-1] &= drawn[:, 1:]
     ink = np.where(drawn & ~interior, np.maximum(ink, preset.rim_gain), ink)
     ink *= np.clip((coverage - 0.15) / 0.55, 0.0, 1.0)
+    # Re-assert silhouette mass after the coverage fade; without this the dark
+    # card collapses dark hair/suit into an empty shadow outline.
+    floor = preset.interior_floor * (0.85 if polarity == "dark" else 0.55)
+    ink = np.where(drawn & (coverage > 0.25), np.maximum(ink, floor), ink)
+    ink = np.where(drawn & ~interior, np.maximum(ink, preset.rim_gain * 0.85), ink)
 
     fringe = np.zeros_like(drawn)
     for dy in (-1, 0, 1):

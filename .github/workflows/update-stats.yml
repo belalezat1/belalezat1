@@ -29,11 +29,11 @@ jobs:
 
       - name: Refresh GitHub stats
         env:
-          # Optional. Without ACCESS_TOKEN, public owned non-fork repos drive the
-          # language bar and GITHUB_TOKEN covers public profile totals.
-          # Secret name: ACCESS_TOKEN
-          # Minimum scopes: read:user, repo (private language inclusion only)
-          # Unavailable without it: private repos (e.g. Atlas) in the language bar
+          # Optional secret ACCESS_TOKEN (classic PAT):
+          #   scopes: read:user, repo
+          # Without it: public owned non-fork repos only for language bar + LOC.
+          # With it: private owned repos (e.g. Atlas) are included too.
+          # Create at https://github.com/settings/tokens → repo secret name ACCESS_TOKEN
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PROFILE_LOGIN: ${{ github.repository_owner }}
@@ -41,6 +41,7 @@ jobs:
           SKIP_IF_REFRESHED_TODAY: ${{ github.event_name == 'schedule' }}
           SKIP_IF_UNCHANGED: "1"
           WRITE_REFRESH_STATE: "1"
+          REQUIRE_LOC: "1"
         run: python update_stats.py
 
       - name: Rebuild profile cards

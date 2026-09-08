@@ -20,7 +20,7 @@ Senior Hacker @ NICC · Treasurer @ United Mission Relief
 ### Projects
 - **[Atlas](https://atlasapp.pages.dev)** — cross-platform travel logbook with multi-tenant Postgres RLS (40+ migrations), Deno Edge Functions, and Cloudflare; traced a 668MB/day egress leak to near-zero repeat-view cost
 - **[Relay](https://github.com/belalezat1/Relay)** — Spring Boot workflow orchestration engine with durable Postgres-backed state, dependency resolution, and a REST API (Kafka distribution in progress)
-- **Recova** — browser-based PT platform (1st, CBC Hackathon): real-time MediaPipe kinematics, Node.js/RabbitMQ pipeline, Claude clinical feedback
+- **[Recova](https://github.com/belalezat1/Recova)** — browser-based PT platform (1st, CBC Hackathon): real-time MediaPipe kinematics, Node.js/RabbitMQ pipeline, Claude clinical feedback
 - **[Transparency Lens](https://github.com/belalezat1/Transparency-Lens)** — network-level tracker map with live Socket.IO viz + Gemini explanations (MLH · Best Use of MongoDB Atlas)
 - **[Battlesnake 2026](https://github.com/belalezat1/battlesnake2026)** — Flask bot blending heuristics + MCTS under 150ms (2nd place; 76% win rate across 100+ games)
 - **ClinicSense** — event-driven MedEd interview scorer (3rd, AWS MedEd Track): Celery/Redis, Transcribe, Comprehend Medical, Bedrock

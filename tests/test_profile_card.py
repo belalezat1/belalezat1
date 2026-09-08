@@ -202,7 +202,7 @@ class ProfileCardTests(unittest.TestCase):
         # Accessible markdown links outside the images
         self.assertIn("mailto:belal.ezat@protonmail.com", readme)
         self.assertIn("https://belalezat.me", readme)
-        self.assertIn("https://github.com/belalezat1/Relay", readme)
+        self.assertIn("https://github.com/belalezat1/Recova", readme)
         self.assertIn("### Skills", readme)
         self.assertIn("New York City Metropolitan Area", readme)
         self.assertNotIn("navly", readme.lower())
