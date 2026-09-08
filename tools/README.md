@@ -7,30 +7,29 @@ From the repository root:
 ```bash
 python3 -m venv .venv
 .venv/bin/python -m pip install -r tools/requirements.txt
-.venv/bin/python tools/ascii_portrait.py --preset balanced
+.venv/bin/python tools/ascii_portrait.py --preset head
 .venv/bin/python tools/build_svg.py
 ```
 
 ## Portrait
 
-Committed source: `tools/headshot.png` (1024×1024 studio headshot).
-Default preset is `face` (tight on the head so eyes/glasses survive README
-scaling). `open` / `balanced` / `tight` change shoulder crop. Optional
-overrides: `--center-x`, `--top`, `--height`, `--source`.
+Committed source: `tools/headshot.png` (face-only crop from a window-lit
+portrait — no glasses). Default preset is `head`. Output is **dense colored
+ASCII**: glyph from luminance (`@%#*+=-:.`), fill from the photo RGB, including
+pale "." cells for the studio matte. Grid is 120×112. Optional overrides:
+`--center-x`, `--top`, `--height`, `--source`.
 
-The portrait uses a coarse 92×128 glyph grid at 3px — sub-pixel 430-col
-stipple looked like a shadow on GitHub.
-
-Dark and light polarities are generated separately — do not reuse one art file
-for both panels.
+Dark and light polarities are generated separately (mild tone remap per card
+background) — do not reuse one art file for both panels.
 
 ```bash
-.venv/bin/python tools/ascii_portrait.py --preset balanced
+.venv/bin/python tools/ascii_portrait.py --preset head
 # or one polarity:
-.venv/bin/python tools/ascii_portrait.py --polarity dark --preset balanced
+.venv/bin/python tools/ascii_portrait.py --polarity dark --preset head
 ```
 
-Outputs: `tools/ascii_art_dark.txt`, `tools/ascii_art_light.txt`.
+Outputs: `tools/ascii_art_{dark,light}.txt` (glyphs) and
+`tools/ascii_art_{dark,light}.json` (run-length color data for the SVG).
 
 ## Stats refresh
 

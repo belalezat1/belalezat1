@@ -18,17 +18,17 @@ ROOT = HERE.parent
 
 CARD_W, CARD_H = 985, 545
 
-# Left column: coarse ASCII portrait + language bar + legend
+# Left column: wide-frame coarse ASCII portrait + language bar + legend
 # Grid must match tools/ascii_portrait.py (COLS/ROWS) and stay left of X_RIGHT.
-COLS, ROWS = 92, 128
-ART_X, ART_Y0 = 18, 30
-ART_FS, ART_ADVANCE, ART_LINE_H = 3.0, 1.8, 3.0
+COLS, ROWS = 120, 112
+ART_X, ART_Y0 = 14, 28
+ART_FS, ART_ADVANCE, ART_LINE_H = 2.4, 1.44, 2.4
 ART_W = COLS * ART_ADVANCE
 
-BAR_X, BAR_Y, BAR_W, BAR_H = ART_X, 430, 260, 9
+BAR_X, BAR_Y, BAR_W, BAR_H = ART_X, 318, 260, 9
 LEGEND_FS = 10.5
 LEGEND_COLS = (ART_X, ART_X + 135)
-LEGEND_ROWS = (458, 478, 498)
+LEGEND_ROWS = (346, 366, 386)
 LEGEND_SLOTS = len(LEGEND_COLS) * len(LEGEND_ROWS)
 
 # Right column: neofetch-style readout
@@ -78,7 +78,8 @@ DARK = dict(
 LIGHT = dict(
     bg="#fffefe",
     fg="#24292f",
-    art="#57606a",
+    # Slightly darker than GitHub muted gray so sparse ASCII holds up.
+    art="#3d444d",
     key="#b35900",
     value="#0a3069",
     add="#1a7f37",
@@ -126,8 +127,12 @@ ID_TO_STAT = {
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--art-dark", type=Path, default=HERE / "ascii_art_dark.txt")
-    parser.add_argument("--art-light", type=Path, default=HERE / "ascii_art_light.txt")
+    parser.add_argument(
+        "--art-dark", type=Path, default=HERE / "ascii_art_dark.json"
+    )
+    parser.add_argument(
+        "--art-light", type=Path, default=HERE / "ascii_art_light.json"
+    )
     parser.add_argument("--output-dir", type=Path, default=ROOT)
     parser.add_argument("--stats-from", type=Path, default=ROOT / "dark_mode.svg")
     parser.add_argument("--languages", type=Path, default=ROOT / "language_stats.json")
@@ -143,16 +148,50 @@ def xml_escape(text: str) -> str:
     )
 
 
-def read_art(path: Path) -> list[str]:
+def read_art_runs(path: Path) -> list[list[dict]]:
+    """Load colored ASCII runs from ascii_portrait.py JSON (or legacy .txt)."""
     if not path.exists():
-        raise SystemExit(
-            f"missing ASCII art {path}; run tools/ascii_portrait.py first"
-        )
+        # Allow calling with .txt path → prefer sibling .json
+        alt = path.with_suffix(".json")
+        if alt.exists():
+            path = alt
+        else:
+            raise SystemExit(
+                f"missing ASCII art {path}; run tools/ascii_portrait.py first"
+            )
+    if path.suffix == ".json":
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        runs = payload.get("runs") or []
+        assert len(runs) <= ROWS, (path, len(runs))
+        while len(runs) < ROWS:
+            runs.append([{"ch": " ", "color": "", "n": COLS}])
+        return runs
+
+    # Legacy plain text → monochrome runs (palette art color applied later)
     lines = path.read_text(encoding="utf-8").splitlines()
     assert len(lines) <= ROWS, (path, len(lines))
     assert max((len(line) for line in lines), default=0) <= COLS, path
-    return lines + [""] * (ROWS - len(lines))
+    lines = lines + [""] * (ROWS - len(lines))
+    out: list[list[dict]] = []
+    for line in lines:
+        padded = line.ljust(COLS)[:COLS]
+        out.append([{"ch": padded, "color": "", "n": 1}])
+    return out
 
+
+def art_line_markup(runs: list[dict], fallback_fill: str) -> str:
+    parts: list[str] = []
+    for run in runs:
+        ch = str(run.get("ch") or " ")
+        n = int(run.get("n") or 1)
+        color = str(run.get("color") or "")
+        if ch == " " and not color:
+            parts.append(" " * n)
+            continue
+        text = xml_escape(ch * n if len(ch) == 1 else ch)
+        fill = color if color.startswith("#") else fallback_fill
+        parts.append(f'<tspan fill="{fill}">{text}</tspan>')
+    return "".join(parts)
 
 def load_stats_from_svg(path: Path, stats: dict[str, str]) -> None:
     if not path.exists():
@@ -381,7 +420,7 @@ text, tspan {{white-space: pre;}}
         f'<rect width="{CARD_W}px" height="{CARD_H}px" fill="{palette["bg"]}" rx="15"/>',
     ]
 
-    art_lines = read_art(art_path)
+    art_runs = read_art_runs(art_path)
     chunks.append(
         f'<text x="{ART_X}" y="{ART_Y0}" fill="{palette["art"]}" '
         f'font-size="{ART_FS}px" class="ascii">'
@@ -389,7 +428,9 @@ text, tspan {{white-space: pre;}}
     for index in range(ROWS):
         y = ART_Y0 + index * ART_LINE_H
         chunks.append(
-            f'<tspan x="{ART_X}" y="{y}">{xml_escape(art_lines[index])}</tspan>'
+            f'<tspan x="{ART_X}" y="{y}">'
+            f'{art_line_markup(art_runs[index], palette["art"])}'
+            f"</tspan>"
         )
     chunks.append("</text>")
     chunks.extend(language_markup(languages, palette))

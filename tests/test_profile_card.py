@@ -76,9 +76,9 @@ class ProfileCardTests(unittest.TestCase):
             lines = (ROOT / "tools" / f"ascii_art_{polarity}.txt").read_text(
                 encoding="utf-8"
             ).splitlines()
-            self.assertLessEqual(len(lines), 128, polarity)
-            self.assertLessEqual(max(map(len, lines)), 92, polarity)
-            head = max(1, round(len(lines) * 0.08))
+            self.assertLessEqual(len(lines), 112, polarity)
+            self.assertLessEqual(max(map(len, lines)), 120, polarity)
+            head = max(1, round(len(lines) * 0.12))
             self.assertTrue(any(lines[:head]), polarity)
 
     def test_portrait_has_visible_feature_contrast(self):
@@ -89,25 +89,46 @@ class ProfileCardTests(unittest.TestCase):
             )
             glyphs = {c for c in text if c not in " \n"}
             self.assertGreaterEqual(len(glyphs), 4, polarity)
-            # Eye/glasses band sits in the upper-middle of the face crop.
+            # Eye/glasses band sits in the upper-middle of the head crop.
             lines = text.splitlines()
-            band = "\n".join(lines[35:70])
-            self.assertTrue(any(c in band for c in "#@*+="), polarity)
+            band = "\n".join(lines[28:58])
+            self.assertTrue(any(c in band for c in "#@*%+="), polarity)
 
     def test_each_panel_has_distinct_portrait_polarity(self):
-        dark_art = (ROOT / "tools" / "ascii_art_dark.txt").read_text(encoding="utf-8")
-        light_art = (ROOT / "tools" / "ascii_art_light.txt").read_text(encoding="utf-8")
-        self.assertNotEqual(dark_art.strip(), light_art.strip())
+        dark_json = json.loads(
+            (ROOT / "tools" / "ascii_art_dark.json").read_text(encoding="utf-8")
+        )
+        light_json = json.loads(
+            (ROOT / "tools" / "ascii_art_light.json").read_text(encoding="utf-8")
+        )
+        self.assertNotEqual(dark_json["runs"], light_json["runs"])
 
         def art_block(name: str) -> str:
             svg = (ROOT / name).read_text(encoding="utf-8")
             return svg[svg.index('class="ascii"') : svg.index("</text>")]
 
-        for name, art in (("dark_mode.svg", dark_art), ("light_mode.svg", light_art)):
+        for name in ("dark_mode.svg", "light_mode.svg"):
             block = art_block(name)
-            for line in sorted(art.splitlines(), key=len)[-3:]:
-                self.assertIn(line, block, name)
+            fills = re.findall(r'fill="(#[0-9a-fA-F]{6})"', block)
+            self.assertGreaterEqual(len(set(fills)), 8, name)
+            # Colored dense ASCII: nested tspans carry per-run fills.
+            self.assertIn("<tspan fill=", block, name)
 
+    def test_portrait_is_colored_ascii(self):
+        for polarity in ("dark", "light"):
+            payload = json.loads(
+                (ROOT / "tools" / f"ascii_art_{polarity}.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            self.assertEqual(payload["cols"], 120)
+            self.assertEqual(payload["rows"], 112)
+            colored = 0
+            for row in payload["runs"]:
+                for run in row:
+                    if run.get("color", "").startswith("#") and run.get("ch") != " ":
+                        colored += int(run.get("n") or 1)
+            self.assertGreater(colored, 5000, polarity)
     def test_language_bar_segments_fill_the_track(self):
         totals = json.loads((ROOT / "language_stats.json").read_text(encoding="utf-8"))
         self.assertTrue(totals["languages"])
@@ -116,7 +137,7 @@ class ProfileCardTests(unittest.TestCase):
             self.assertIn('clip-path="url(#barClip)"', svg)
             group = svg.split('<g clip-path="url(#barClip)">')[1].split("</g>")[0]
             segments = re.findall(
-                r'<rect x="([\d.]+)" y="430" width="([\d.]+)"', group
+                r'<rect x="([\d.]+)" y="318" width="([\d.]+)"', group
             )
             self.assertGreaterEqual(len(segments), 2, name)
             covered = sum(float(width) for _, width in segments)
@@ -170,9 +191,9 @@ class ProfileCardTests(unittest.TestCase):
                     "--stats-from",
                     str(source),
                     "--art-dark",
-                    str(ROOT / "tools" / "ascii_art_dark.txt"),
+                    str(ROOT / "tools" / "ascii_art_dark.json"),
                     "--art-light",
-                    str(ROOT / "tools" / "ascii_art_light.txt"),
+                    str(ROOT / "tools" / "ascii_art_light.json"),
                     "--languages",
                     str(ROOT / "language_stats.json"),
                 ],
