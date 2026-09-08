@@ -1,0 +1,57 @@
+{
+  "languages": [
+    {
+      "bytes": 353863,
+      "name": "Jupyter Notebook"
+    },
+    {
+      "bytes": 136110,
+      "name": "Java"
+    },
+    {
+      "bytes": 134203,
+      "name": "Python"
+    },
+    {
+      "bytes": 86292,
+      "name": "HTML"
+    },
+    {
+      "bytes": 85251,
+      "name": "JavaScript"
+    },
+    {
+      "bytes": 76762,
+      "name": "TypeScript"
+    },
+    {
+      "bytes": 47343,
+      "name": "PHP"
+    },
+    {
+      "bytes": 14732,
+      "name": "CSS"
+    },
+    {
+      "bytes": 4935,
+      "name": "Hack"
+    },
+    {
+      "bytes": 2627,
+      "name": "PLpgSQL"
+    },
+    {
+      "bytes": 637,
+      "name": "Dockerfile"
+    },
+    {
+      "bytes": 150,
+      "name": "Rust"
+    },
+    {
+      "bytes": 25,
+      "name": "Procfile"
+    }
+  ],
+  "version": 1
+}

@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+dark_mode.png
+light_mode.png
+*.tmp

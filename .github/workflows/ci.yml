@@ -1,0 +1,52 @@
+name: Profile card CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: profile-card-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        # actions/checkout@v7.0.1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+      - name: Set up Python
+        # actions/setup-python@v7.0.0
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install -r tools/requirements.txt
+
+      - name: Validate workflow YAML
+        run: |
+          python - <<'PY'
+          import pathlib
+          try:
+              import yaml
+          except ImportError:
+              import subprocess, sys
+              subprocess.check_call([sys.executable, "-m", "pip", "install", "pyyaml"])
+              import yaml
+          root = pathlib.Path(".github/workflows")
+          for path in sorted(root.glob("*.yml")):
+              with path.open(encoding="utf-8") as handle:
+                  docs = list(yaml.safe_load_all(handle))
+              assert docs and docs[0] is not None, path
+              print(f"ok {path}")
+          PY
+
+      - name: Run profile card tests
+        run: python -m unittest discover -s tests -v
