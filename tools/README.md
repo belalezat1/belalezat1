@@ -15,9 +15,9 @@ python3 -m venv .venv
 
 Committed source: `tools/headshot.png` (face-only crop from a window-lit
 portrait — no glasses). Default preset is `head`. Output is **dense colored
-ASCII**: glyph from luminance (`@%#*+=-:.`), fill from the photo RGB, including
-pale "." cells for the studio matte. Grid is 120×112. Optional overrides:
-`--center-x`, `--top`, `--height`, `--source`.
+ASCII**: glyph from luminance (`@%#*+=-:.`), fill from the photo RGB. Near-white
+studio matte is left blank so the card background shows through. Grid is
+120×112. Optional overrides: `--center-x`, `--top`, `--height`, `--source`.
 
 Dark and light polarities are generated separately (mild tone remap per card
 background) — do not reuse one art file for both panels.

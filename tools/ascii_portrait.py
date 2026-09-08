@@ -1,8 +1,9 @@
 """Generate theme-aware colored ASCII portraits from the committed headshot.
 
 Dense glyph grid like HTML colored-ASCII exporters: character from luminance
-(`@%#*+=-:.`), fill from the photo RGB — including pale "." cells for the
-studio matte. Dark/light outputs differ by a mild tone remap.
+(`@%#*+=-:.`), fill from the photo RGB. Near-white studio matte is left as
+spaces so the SVG card background shows through. Dark/light outputs differ
+by a mild tone remap.
 
     python3 tools/ascii_portrait.py --preset head
 """
@@ -24,7 +25,7 @@ HERE = Path(__file__).resolve().parent
 COLS, ROWS = 120, 112
 CHAR_WIDTH, LINE_HEIGHT = 0.6, 1.0
 
-# Dark → light (bright matte / highlights → ".").
+# Dark → light (bright highlights → "."; matte → space via is_backdrop).
 RAMP = "@%#*+=-:."
 
 POLARITIES = ("dark", "light")
@@ -42,10 +43,11 @@ class CropPreset:
 
 PRESETS = {
     # Face-only, white-matted window-lit portrait (no glasses). 1024² canvas.
-    "head": CropPreset("headshot.png", 512, 20, 980, 1.08, 1.25),
-    "open": CropPreset("headshot.png", 512, 0, 1024, 1.06, 1.18),
-    "balanced": CropPreset("headshot.png", 512, 30, 960, 1.10, 1.30),
-    "tight": CropPreset("headshot.png", 512, 50, 900, 1.12, 1.35),
+    # Slightly zoomed; top cuts most matte above the hairline.
+    "head": CropPreset("headshot.png", 512, 95, 840, 1.08, 1.25),
+    "open": CropPreset("headshot.png", 512, 40, 960, 1.06, 1.18),
+    "balanced": CropPreset("headshot.png", 512, 70, 900, 1.10, 1.30),
+    "tight": CropPreset("headshot.png", 512, 110, 800, 1.12, 1.35),
 }
 
 
@@ -86,7 +88,7 @@ def prepare(image: Image.Image, preset: CropPreset) -> Image.Image:
 
 
 def glyph_for_luma(luma: float) -> str:
-    # Bright subject / matte → "."; dark → "@".
+    # Bright subject highlights → "."; dark → "@".
     t = float(np.clip(luma / 255.0, 0.0, 1.0))
     index = min(len(RAMP) - 1, int(t * len(RAMP)))
     return RAMP[index]
@@ -99,8 +101,7 @@ def remap_rgb(rgb: np.ndarray, polarity: str) -> np.ndarray:
         # Mild lift so skin/hair don't sink into #161b22.
         out = 8.0 + x * 0.97
     else:
-        # Keep near-white matte (~249,247,250); soft midtone pull-down only.
-        # Use x*x form so we never divide the working buffer in place.
+        # Soft midtone pull-down; x*x form avoids in-place divide hazards.
         out = x * 0.88 + x * x * (0.12 / 255.0)
     return np.clip(out, 0, 255).astype(np.uint8)
 
@@ -122,19 +123,35 @@ def cell_grid(source: Path, preset: CropPreset) -> tuple[np.ndarray, np.ndarray]
     return rgb, luma
 
 
+def is_backdrop(rgb: np.ndarray, luma: np.ndarray) -> np.ndarray:
+    """Studio / canvas matte → transparent (card background shows through)."""
+    chroma = rgb.max(axis=2).astype(np.int16) - rgb.min(axis=2).astype(np.int16)
+    return ((luma >= 236) & (chroma <= 18)) | (
+        (rgb.min(axis=2) >= 228) & (chroma <= 14)
+    )
+
+
 def encode_runs(
-    glyphs: np.ndarray, colors: np.ndarray
+    glyphs: np.ndarray, colors: np.ndarray, backdrop: np.ndarray
 ) -> list[list[dict[str, str | int]]]:
     rows: list[list[dict[str, str | int]]] = []
     for y in range(ROWS):
         runs: list[dict[str, str | int]] = []
         x = 0
         while x < COLS:
+            if backdrop[y, x]:
+                n = 1
+                while x + n < COLS and backdrop[y, x + n]:
+                    n += 1
+                runs.append({"ch": " ", "color": "", "n": n})
+                x += n
+                continue
             ch = str(glyphs[y, x])
             color = "#{:02x}{:02x}{:02x}".format(*colors[y, x])
             n = 1
             while (
                 x + n < COLS
+                and not backdrop[y, x + n]
                 and glyphs[y, x + n] == ch
                 and "#{:02x}{:02x}{:02x}".format(*colors[y, x + n]) == color
             ):
@@ -147,14 +164,17 @@ def encode_runs(
 
 def generate(source: Path, preset: CropPreset, polarity: str) -> tuple[list[str], list]:
     rgb, luma = cell_grid(source, preset)
+    backdrop = is_backdrop(rgb, luma)
     colors = remap_rgb(rgb, polarity)
     glyphs = np.empty((ROWS, COLS), dtype="<U1")
     for y in range(ROWS):
         for x in range(COLS):
-            glyphs[y, x] = glyph_for_luma(float(luma[y, x]))
-    # Keep trailing spaces for layout width; matte is inked as colored ".".
-    lines = ["".join(glyphs[y]) for y in range(ROWS)]
-    runs = encode_runs(glyphs, colors)
+            if backdrop[y, x]:
+                glyphs[y, x] = " "
+            else:
+                glyphs[y, x] = glyph_for_luma(float(luma[y, x]))
+    lines = ["".join(glyphs[y]).rstrip() for y in range(ROWS)]
+    runs = encode_runs(glyphs, colors, backdrop)
     return lines, runs
 
 

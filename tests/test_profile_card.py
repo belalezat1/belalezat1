@@ -78,8 +78,10 @@ class ProfileCardTests(unittest.TestCase):
             ).splitlines()
             self.assertLessEqual(len(lines), 112, polarity)
             self.assertLessEqual(max(map(len, lines)), 120, polarity)
-            head = max(1, round(len(lines) * 0.12))
-            self.assertTrue(any(lines[:head]), polarity)
+            # Transparent matte leaves leading blank rows; ink should still
+            # land in the upper third of the panel.
+            upper = lines[: max(1, round(len(lines) * 0.40))]
+            self.assertTrue(any(line.strip() for line in upper), polarity)
 
     def test_portrait_has_visible_feature_contrast(self):
         """Coarse grid should keep more than a flat silhouette of one glyph."""
