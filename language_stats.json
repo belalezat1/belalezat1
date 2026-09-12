@@ -9,12 +9,12 @@
       "name": "TypeScript"
     },
     {
-      "bytes": 353863,
-      "name": "Jupyter Notebook"
+      "bytes": 384947,
+      "name": "Python"
     },
     {
-      "bytes": 194333,
-      "name": "Python"
+      "bytes": 353863,
+      "name": "Jupyter Notebook"
     },
     {
       "bytes": 136110,
@@ -39,6 +39,10 @@
     {
       "bytes": 7685,
       "name": "Hack"
+    },
+    {
+      "bytes": 2129,
+      "name": "Makefile"
     },
     {
       "bytes": 637,
