@@ -1,15 +1,5 @@
 {
   "repositories": {
-    "belalezat1/Atlas": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "01a1e919f69182e43ef994c8bc279932d8fc4bd6"
-    },
-    "belalezat1/CS301-MachineLearningProject": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "a10213184d9724b2496ed83419e001079d66202b"
-    },
     "belalezat1/Ratio": {
       "additions": 2,
       "deletions": 0,
@@ -24,16 +14,6 @@
       "additions": 129,
       "deletions": 8,
       "headOid": "cd1f485df493fa2e7b85ea20b96954a1e8b41dae"
-    },
-    "belalezat1/Transparency-Lens": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "9f2d74e4d8c0fbabe258860f3a10e6f5e8702a71"
-    },
-    "belalezat1/battlesnake2026": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "5b68e0a11b2ad81e348c1e863eca6e0783ae4b11"
     },
     "belalezat1/belalezat1": {
       "additions": 428,
@@ -54,26 +34,6 @@
       "additions": 1747,
       "deletions": 182,
       "headOid": "746d74cd06518dbecf09324e92f4f8244aaf43c4"
-    },
-    "belalezat1/finance-nagger": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "7808a006f5fceb2ed109ca3097132185f3a28afc"
-    },
-    "belalezat1/hello-world": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "efa5a588a6136137318981668d55d0f5ef74f563"
-    },
-    "belalezat1/launchguard": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "d21df5892a679e0cefab84e9ce53bbe964e0c959"
-    },
-    "belalezat1/navly": {
-      "additions": 0,
-      "deletions": 0,
-      "headOid": "3f555913c50aac1b28f519cc829d38619303fff3"
     }
   },
   "version": 1
