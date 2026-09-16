@@ -1,8 +1,8 @@
 {
   "login": "belalezat1",
-  "refreshedAt": "2026-09-16T11:57:31.003025Z",
+  "refreshedAt": "2026-09-16T16:29:28.442650Z",
   "refreshedOn": "2026-09-16",
-  "trigger": "schedule",
+  "trigger": "workflow_dispatch",
   "values": {
     "contribution_data": "91",
     "follower_data": "6",
