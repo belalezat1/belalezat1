@@ -1,11 +1,11 @@
 {
   "languages": [
     {
-      "bytes": 14949120,
+      "bytes": 14956724,
       "name": "JavaScript"
     },
     {
-      "bytes": 1026308,
+      "bytes": 1399756,
       "name": "TypeScript"
     },
     {
@@ -21,7 +21,7 @@
       "name": "Java"
     },
     {
-      "bytes": 91369,
+      "bytes": 90842,
       "name": "HTML"
     },
     {
@@ -33,20 +33,24 @@
       "name": "PHP"
     },
     {
-      "bytes": 29567,
+      "bytes": 49222,
       "name": "CSS"
+    },
+    {
+      "bytes": 10746,
+      "name": "Shell"
     },
     {
       "bytes": 7685,
       "name": "Hack"
     },
     {
-      "bytes": 4420,
-      "name": "Shell"
-    },
-    {
       "bytes": 2129,
       "name": "Makefile"
+    },
+    {
+      "bytes": 1483,
+      "name": "PowerShell"
     },
     {
       "bytes": 637,
