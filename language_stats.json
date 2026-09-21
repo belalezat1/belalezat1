@@ -1,11 +1,11 @@
 {
   "languages": [
     {
-      "bytes": 14956724,
+      "bytes": 14959384,
       "name": "JavaScript"
     },
     {
-      "bytes": 1399756,
+      "bytes": 1479311,
       "name": "TypeScript"
     },
     {
@@ -21,7 +21,7 @@
       "name": "Java"
     },
     {
-      "bytes": 90842,
+      "bytes": 90866,
       "name": "HTML"
     },
     {
@@ -33,7 +33,7 @@
       "name": "PHP"
     },
     {
-      "bytes": 49222,
+      "bytes": 80643,
       "name": "CSS"
     },
     {
