@@ -1,7 +1,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="dark_mode.svg">
   <source media="(prefers-color-scheme: light)" srcset="light_mode.svg">
-  <img src="dark_mode.svg" alt="Belal Ezat terminal profile card: CS student at NJIT, SWE and Solutions Architecture, belalezat.me" width="985">
+  <img src="dark_mode.svg" alt="Belal Ezat terminal profile card: CS student at NJIT, SWE and Solutions Architecture, belalezat.work" width="985">
 </picture>
 
 <picture>
@@ -16,7 +16,7 @@ Senior Hacker @ NICC · Treasurer @ United Mission Relief · seeking **SWE inter
 ### Projects
 - **[Relay](https://github.com/belalezat1/Relay)** - crash-safe Spring Boot / Postgres / Kafka workflow orchestrator (durable DAG state, skip-locked leases, transactional outbox)
 - **[LaunchGuard](https://github.com/belalezat1/launchguard)** - self-improving launch decision engine (Ship / Hold / Revise); CrewAI + You.com + Daytona (1st, You.com AI Agent Hackathon)
-- **[Pilot](https://rho-pilot.vercel.app/)** ([repo](https://github.com/belalezat1/Rho-Hacks)) - read-only CFO brief layer on Rho with cited Tavily spend context (Best Use of Tavily API, LOCK IN Hack)
+- **[Pilot](https://rho-pilot.vercel.app/)** - read-only CFO brief layer on Rho with cited Tavily spend context (Best Use of Tavily API, LOCK IN Hack)
 - **[Atlas](https://atlasapp.pages.dev)** - multi-tenant React Native app with Postgres RLS (40+ migrations); fixed a 668MB/day egress leak; cut API p95 42%
 - **[Recova](https://devpost.com/software/recova-b2zsn3)** - browser PT platform (1st, Anthropic CBC Hackathon): MediaPipe kinematics, Node/RabbitMQ, Claude feedback
 - **ClinicSense** - event-driven MedEd interview scorer (3rd, AWS MedEd Track): Celery/Redis, Transcribe, Bedrock
