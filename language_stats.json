@@ -5,11 +5,11 @@
       "name": "JavaScript"
     },
     {
-      "bytes": 1608805,
+      "bytes": 1663154,
       "name": "TypeScript"
     },
     {
-      "bytes": 424803,
+      "bytes": 484397,
       "name": "Python"
     },
     {
@@ -25,7 +25,7 @@
       "name": "CSS"
     },
     {
-      "bytes": 96115,
+      "bytes": 97652,
       "name": "PLpgSQL"
     },
     {
@@ -51,6 +51,10 @@
     {
       "bytes": 1483,
       "name": "PowerShell"
+    },
+    {
+      "bytes": 1380,
+      "name": "Swift"
     },
     {
       "bytes": 637,
